@@ -18,12 +18,8 @@ public class TaskService {
         return store.findAll();
     }
 
-    public List<Task> findAllNew() {
-        return store.findAllNew();
-    }
-
-    public List<Task> findAllDone() {
-        return store.findAllDone();
+    public List<Task> findByDone(boolean isDone) {
+        return store.findByDone(isDone);
     }
 
     public Optional<Task> findById(int id) {

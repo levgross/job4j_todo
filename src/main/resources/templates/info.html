@@ -20,40 +20,37 @@
 </head>
 <body>
 <div class="container">
-	<div class="links">
-	<a th:href="@{/tasks}" class="link">All</a>
-	<a th:href="@{/tasksNew}" class="link">New</a>
-	<a href="#" class="link">Done</a>
-	</div>
     <div class="row">
         <table class="table">
             <thead>
-            <tr>
-			    <th scope="col">#</th>
-			    <th scope="col">Task description</th>
-				<th scope="col">Date of creation</th>
-			    <th scope="col">Status</th>
-            </tr>
+            <th>
+			    Task information
+            </th>
             </thead>
             <tbody>
-            <tr th:each="task: ${done}" >
-                <td th:text="${task.id}" />
-				<td>
-					<a th:text="${task.description}" th:href="@{|/taskInfo/${task.id}|}"/>
-				</td>
+            <tr>
+				<td>#</td>
+                <td th:text="${task.id}"></td>
+            </tr>
+			<tr>
+				<td>Task description</td>
+				<td th:text="${task.description}" />
+            </tr>
+			<tr>
+				<td>Date of creation</td>
 			    <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy')}" />
-				<td>
-					<a>
-					<span th:if="${task.done}">Done</span>
-					<span th:if="${!task.done}">New</span>
-					</a>
-				</td>
+            </tr>
+			<tr>
+				<td>Task status</td>
+				<td th:text="${task.done}" />
             </tr>
             </tbody>
         </table>
     </div>
 	<div class="button">
-		<a class="btn btn-primary" th:href="@{/addTask}" role="button">New task</a>
+		<a class="btn btn-primary" th:href="@{|/tasks/setDone/${task.id}|}" role="button">Done</a>
+		<a class="btn btn-primary" th:href="@{|/tasks/edit/${task.id}|}" role="button">Edit</a>
+		<a class="btn btn-primary" th:href="@{|/tasks/delete/${task.id}|}" role="button">Delete</a>
     </div>
 </div>
 </body>

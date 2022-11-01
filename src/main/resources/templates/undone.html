@@ -20,10 +20,10 @@
 </head>
 <body>
 <div class="container">
-	<div>
-	<a th:href="@{/tasks}" class="link-secondary">All</a>
-	<a th:href="@{/tasks/undone}" class="link-danger">Undone</a>
-	<a th:href="@{/tasks/done}" class="link-success">Done</a>
+	<div class="links">
+	<a th:href="@{/tasks}" class="link">All</a>
+	<a href="#" class="link">Undone</a>
+	<a th:href="@{/tasks/done}" class="link">Done</a>
 	</div>
     <div class="row">
         <table class="table">
@@ -36,7 +36,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="task: ${tasks}" >
+            <tr th:each="task: ${undone}" >
                 <td th:text="${task.id}" />
 				<td>
 					<a th:text="${task.description}" th:href="@{|/tasks/info/${task.id}|}"/>

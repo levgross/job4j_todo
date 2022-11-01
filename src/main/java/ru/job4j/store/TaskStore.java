@@ -26,20 +26,11 @@ public class TaskStore {
         return rsl;
     }
 
-    public List<Task> findAllNew() {
+    public List<Task> findByDone(boolean isDone) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Query<Task> query = session.createQuery("FROM Task WHERE done = false");
-        List<Task> rsl = query.getResultList();
-        session.getTransaction().commit();
-        session.close();
-        return rsl;
-    }
-
-    public List<Task> findAllDone() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Query<Task> query = session.createQuery("FROM Task WHERE done = true");
+        Query<Task> query = session.createQuery("FROM Task WHERE done = :tDone")
+                .setParameter("tDone", isDone);
         List<Task> rsl = query.getResultList();
         session.getTransaction().commit();
         session.close();
@@ -108,10 +99,9 @@ public class TaskStore {
 
     public void setDone(int id) {
         Session session = sf.openSession();
-        int rsl = 0;
         try {
             session.beginTransaction();
-            rsl = session.createQuery(
+            session.createQuery(
                             "UPDATE Task SET done = true WHERE id = :tId")
                     .setParameter("tId", id)
                     .executeUpdate();

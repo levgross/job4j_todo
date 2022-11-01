@@ -15,45 +15,30 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	
     <title>ToDo List</title>
 </head>
 <body>
 <div class="container">
-	<div class="links">
-	<a th:href="@{/tasks}" class="link">All</a>
-	<a href="#" class="link">New</a>
-	<a th:href="@{/tasksDone}" class="link">Done</a>
-	</div>
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-			    <th scope="col">#</th>
-			    <th scope="col">Task description</th>
-				<th scope="col">Date of creation</th>
-			    <th scope="col">Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="task: ${newtasks}" >
-                <td th:text="${task.id}" />
-				<td>
-					<a th:text="${task.description}" th:href="@{|/taskInfo/${task.id}|}"/>
-				</td>
-			    <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy')}" />
-				<td>
-					<a>
-					<span th:if="${task.done}">Done</span>
-					<span th:if="${!task.done}">New</span>
-					</a>
-				</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-	<div class="button">
-		<a class="btn btn-primary" th:href="@{/addTask}" role="button">New task</a>
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!</h1>
+                <h2>
+                    404 Not Found</h2>
+                <div class="error-details">
+                    Sorry, an error has occured, Requested page not found!
+                </div>
+                <div class="error-actions">
+                    <a th:href="@{/tasks}" class="btn btn-primary btn-lg">Take Me Home</a>
+					<a href="mailto:levgross@gmail.com" class="btn btn-default btn-lg">Contact Support</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

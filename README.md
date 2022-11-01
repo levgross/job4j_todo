@@ -1,10 +1,10 @@
 # job4j_todo
 
-![img.png](img.png)
+![img.png](img\img.png)
 
-![img_1.png](img_1.png)
+![img_1.png](img\img_1.png)
 
-![img_2.png](img_2.png)
+![img_2.png](img\img_2.png)
 
 ## О проекте
 Это веб-приложение ToDo List.
@@ -26,13 +26,25 @@
 TaskStore принимает объект SessionFactory через конструктор.
 
 ## Использованные технологии
-Java 17, Maven 4.0, Spring boot, PostgreSQL, Liquibase, Hibernate 5, Lombok, Thymeleaf, Bootstrap
+- Java 17
+- Maven 4.0.0
+- Spring boot 2.7.3
+- PostgreSQL 42.2.9
+- Liquibase 4.15.0
+- Hibernate 5.6.11.Final
+- Lombok 1.18.22
+- Thymeleaf
+- Bootstrap
 
 ## Настройка окружения
-Установить PostgreSQL: логин - postgres, пароль - password
-Создать там БД todo
-Браузер желательно Chrome
+Установить:
+- PostgreSQL
+- JDK
+- Maven
 
 ## Запуск проекта
-Запустить командой mvn spring-boot:run
-перейти по ссылке http://localhost:8080/tasks
+Создать базу данных ```createdb --username=ИМЯ todo```
+
+Запустить командой ```mvn spring-boot:run```
+
+Перейти по ссылке http://localhost:8080/tasks

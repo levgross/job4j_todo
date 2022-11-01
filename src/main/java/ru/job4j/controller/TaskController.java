@@ -12,73 +12,74 @@ import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/tasks")
 public class TaskController {
     private final TaskService service;
 
-    @GetMapping("/tasks")
+    @GetMapping("")
     public String tasks(Model model) {
         model.addAttribute("tasks", service.findAll());
         return "tasks";
     }
 
-    @GetMapping("/tasksNew")
-    public String tasksNew(Model model) {
-        model.addAttribute("newtasks", service.findAllNew());
-        return "tasksNew";
+    @GetMapping("/undone")
+    public String undone(Model model) {
+        model.addAttribute("undone", service.findByDone(false));
+        return "undone";
     }
 
-    @GetMapping("/tasksDone")
-    public String tasksDone(Model model) {
-        model.addAttribute("done", service.findAllDone());
-        return "tasksDone";
+    @GetMapping("/done")
+    public String done(Model model) {
+        model.addAttribute("done", service.findByDone(true));
+        return "done";
     }
 
-    @GetMapping("/addTask")
-    public String addTask(Model model) {
-        return "addTask";
+    @GetMapping("/new")
+    public String add(Model model) {
+        return "new";
     }
 
-    @PostMapping("/createTask")
-    public String createTask(@ModelAttribute Task task) {
+    @PostMapping("/create")
+    public String create(@ModelAttribute Task task) {
         task.setCreated(LocalDateTime.now());
         service.add(task);
         return "redirect:/tasks";
     }
 
-    @GetMapping("/taskInfo/{taskId}")
-    public String taskInfo(Model model, @PathVariable("taskId") int id) {
+    @GetMapping("/info/{id}")
+    public String info(Model model, @PathVariable("id") int id) {
         Optional<Task> optTask = service.findById(id);
         if (optTask.isEmpty()) {
-            return "redirect:/tasks";
+            return "404";
         }
         model.addAttribute("task", optTask.get());
-        return "taskInfo";
+        return "info";
     }
 
-    @GetMapping("/setDone/{taskId}")
-    public String setDone(@PathVariable("taskId") int id) {
+    @GetMapping("/setDone/{id}")
+    public String setDone(@PathVariable("id") int id) {
         service.setDone(id);
         return "redirect:/tasks";
     }
 
-    @GetMapping("/deleteTask/{taskId}")
-    public String deleteTask(@PathVariable("taskId") int id) {
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id) {
         service.delete(id);
         return "redirect:/tasks";
     }
 
-    @GetMapping("/editTask/{taskId}")
-    public String editTask(Model model, @PathVariable("taskId") int id) {
+    @GetMapping("/edit/{id}")
+    public String edit(Model model, @PathVariable("id") int id) {
         Optional<Task> optTask = service.findById(id);
         if (optTask.isEmpty()) {
-            return "redirect:/tasks";
+            return "404";
         }
         model.addAttribute("task", optTask.get());
-        return "formUpdateTask";
+        return "formUpdate";
     }
 
-    @PostMapping("/updateTask")
-    public String updateTask(@ModelAttribute Task task) {
+    @PostMapping("/update")
+    public String update(@ModelAttribute Task task) {
         service.replace(task.getId(), task);
         return "redirect:/tasks";
     }
