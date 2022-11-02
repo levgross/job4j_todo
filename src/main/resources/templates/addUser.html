@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -14,7 +14,6 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>ToDo List</title>
 </head>
@@ -40,40 +39,34 @@
 			</div>
 		</div>
 	</nav>
-	<div>
-	<a th:href="@{/tasks}" class="link">All</a>
-	<a th:href="@{/tasks/undone}" class="link">Undone</a>
-	<a href="#" class="link">Done</a>
-	</div>
-    <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-			    <th scope="col">#</th>
-			    <th scope="col">Task description</th>
-				<th scope="col">Date of creation</th>
-			    <th scope="col">Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="task: ${done}" >
-                <td th:text="${task.id}" />
-				<td>
-					<a th:text="${task.description}" th:href="@{|/tasks/info/${task.id}|}"/>
-				</td>
-			    <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy')}" />
-				<td>
-					<a>
-					<span th:if="${task.done}">Done</span>
-					<span th:if="${!task.done}">Undone</span>
-					</a>
-				</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-	<div class="button">
-		<a class="btn btn-primary" th:href="@{/tasks/new}" role="button">New task</a>
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                New user registration.
+            </div>
+            <div class="card-body">
+				<div th:if="${fail}" class="alert alert-danger" role="alert">
+                    Login is registered already! Or not all the fields are filled.
+                </div>
+			    <form th:action="@{/registration}" method="POST">
+                    <input type="hidden" name="id" value="0"/>
+					<div class="form-group">
+                        <label for="name">Your name</label>
+						<input type="text" class="form-control" name="name" id="name"/>
+					</div>
+                    <div class="form-group">
+                        <label for="login">Your login</label>
+						<input type="text" class="form-control" name="login" id="login"/>
+					</div>
+					<div class="form-group">
+                        <label for="password">Your password</label>
+                        <input type="text" class="form-control" name="password" id="password"/>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>

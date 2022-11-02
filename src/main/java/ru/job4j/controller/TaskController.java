@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
 import ru.job4j.service.TaskService;
+import ru.job4j.util.Utility;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -17,25 +19,29 @@ public class TaskController {
     private final TaskService service;
 
     @GetMapping("")
-    public String tasks(Model model) {
+    public String tasks(Model model, HttpSession session) {
         model.addAttribute("tasks", service.findAll());
+        model.addAttribute("user", Utility.check(session));
         return "tasks";
     }
 
     @GetMapping("/undone")
-    public String undone(Model model) {
+    public String undone(Model model, HttpSession session) {
         model.addAttribute("undone", service.findByDone(false));
+        model.addAttribute("user", Utility.check(session));
         return "undone";
     }
 
     @GetMapping("/done")
-    public String done(Model model) {
+    public String done(Model model, HttpSession session) {
         model.addAttribute("done", service.findByDone(true));
+        model.addAttribute("user", Utility.check(session));
         return "done";
     }
 
     @GetMapping("/new")
-    public String add(Model model) {
+    public String add(Model model, HttpSession session) {
+        model.addAttribute("user", Utility.check(session));
         return "new";
     }
 
@@ -47,12 +53,13 @@ public class TaskController {
     }
 
     @GetMapping("/info/{id}")
-    public String info(Model model, @PathVariable("id") int id) {
+    public String info(Model model, @PathVariable("id") int id, HttpSession session) {
         Optional<Task> optTask = service.findById(id);
         if (optTask.isEmpty()) {
             return "404";
         }
         model.addAttribute("task", optTask.get());
+        model.addAttribute("user", Utility.check(session));
         return "info";
     }
 
@@ -71,12 +78,13 @@ public class TaskController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable("id") int id) {
+    public String edit(Model model, @PathVariable("id") int id, HttpSession session) {
         Optional<Task> optTask = service.findById(id);
         if (optTask.isEmpty()) {
             return "404";
         }
         model.addAttribute("task", optTask.get());
+        model.addAttribute("user", Utility.check(session));
         return "formUpdate";
     }
 

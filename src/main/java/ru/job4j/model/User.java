@@ -4,18 +4,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tasks")
+@Table(name = "todo_user")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Task {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
-    private String description;
-    private LocalDateTime created;
-    private boolean done;
+    private String name;
+    private String login;
+    private String password;
 }

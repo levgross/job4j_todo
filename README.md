@@ -44,9 +44,12 @@ TaskStore принимает объект SessionFactory через констр
 - Maven 4.0.0
 
 ## Запуск проекта
-Создать базу данных 
+Создать базы данных 
 ```
-createdb --username=ИМЯ todo
+createdb --username=ИМЯ tasks
+```
+```
+createdb --username=ИМЯ todo_user
 ```
 
 Запустить командой
