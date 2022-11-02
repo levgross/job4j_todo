@@ -1,10 +1,11 @@
 # job4j_todo
 
-![img.png](img\img.png)
+![List of tasks](img/img.png)
 
-![img_1.png](img\img_1.png)
+![Task information](img/img_1.png)
 
-![img_2.png](img\img_2.png)
+![Edit task](img/img_2.png)
+
 
 ## О проекте
 Это веб-приложение ToDo List.
@@ -43,8 +44,14 @@ TaskStore принимает объект SessionFactory через констр
 - Maven
 
 ## Запуск проекта
-Создать базу данных ```createdb --username=ИМЯ todo```
+Создать базу данных 
+```
+createdb --username=ИМЯ todo
+```
 
-Запустить командой ```mvn spring-boot:run```
+Запустить командой
+```
+mvn spring-boot:run
+```
 
 Перейти по ссылке http://localhost:8080/tasks
