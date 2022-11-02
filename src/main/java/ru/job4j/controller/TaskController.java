@@ -64,7 +64,9 @@ public class TaskController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id) {
-        service.delete(id);
+        if (!service.delete(id)) {
+            return "404";
+        }
         return "redirect:/tasks";
     }
 
