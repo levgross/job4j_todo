@@ -30,7 +30,7 @@ TaskStore принимает объект SessionFactory через констр
 - Java 17
 - Maven 4.0.0
 - Spring boot 2.7.3
-- PostgreSQL 42.2.9
+- PostgreSQL 14.2
 - Liquibase 4.15.0
 - Hibernate 5.6.11.Final
 - Lombok 1.18.22
@@ -39,9 +39,9 @@ TaskStore принимает объект SessionFactory через констр
 
 ## Настройка окружения
 Установить:
-- PostgreSQL
-- JDK
-- Maven
+- PostgreSQL 14.2
+- JDK 17.0.1
+- Maven 4.0.0
 
 ## Запуск проекта
 Создать базу данных 
