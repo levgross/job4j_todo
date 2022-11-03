@@ -28,7 +28,7 @@ public class UserStore {
         return Optional.of(user);
     }
 
-    public Optional<User> findByLoginAndPwd(String login, String password) {
+    public Optional<User> findByLoginAndPassword(String login, String password) {
         Session session = sf.openSession();
         session.beginTransaction();
         var query = session.createQuery("FROM User WHERE login = :uLgn AND password = :uPwd")

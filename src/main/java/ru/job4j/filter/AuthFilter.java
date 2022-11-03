@@ -10,6 +10,14 @@ import java.util.Set;
 
 @Component
 public class AuthFilter implements Filter {
+    private static final Set<String> PAGES = Set.of(
+            "loginPage",
+            "login",
+            "logout",
+            "formAddUser",
+            "registration"
+    );
+
     @Override
     public void doFilter(
             ServletRequest servletRequest,
@@ -18,14 +26,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String uri = req.getRequestURI();
-        Set<String> pages = Set.of(
-                "loginPage",
-                "login",
-                "logout",
-                "formAddUser",
-                "registration"
-        );
-        if (anyMatch(uri, pages)) {
+        if (anyMatch(uri, PAGES)) {
             chain.doFilter(req, resp);
             return;
         }
@@ -38,6 +39,6 @@ public class AuthFilter implements Filter {
 
     private boolean anyMatch(String uri, Set<String> set) {
         return set.stream()
-                .anyMatch(uri::contains);
+                .anyMatch(uri::endsWith);
     }
 }

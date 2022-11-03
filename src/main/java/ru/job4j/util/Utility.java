@@ -4,7 +4,7 @@ import ru.job4j.model.User;
 
 import javax.servlet.http.HttpSession;
 
-public class Utility {
+public final class Utility {
     private Utility() {
     }
 
