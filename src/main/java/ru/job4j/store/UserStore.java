@@ -1,42 +1,30 @@
 package ru.job4j.store;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.User;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 public class UserStore {
-    private final SessionFactory sf;
+    private final CrudStore crudStore;
 
     public Optional<User> add(User user) {
-        Session session = sf.openSession();
         try {
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
-            session.close();
+            crudStore.run(session -> session.persist(user));
+            return Optional.of(user);
         } catch (Exception e) {
-            session.getTransaction().rollback();
             return Optional.empty();
         }
-        return Optional.of(user);
     }
 
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        var query = session.createQuery("FROM User WHERE login = :uLgn AND password = :uPwd")
-                .setParameter("uLgn", login)
-                .setParameter("uPwd", password);
-        var rsl = query.uniqueResultOptional();
-        session.getTransaction().commit();
-        session.close();
-        return rsl;
+        return crudStore.optional(
+                "from User where login = :uLgn and password = :uPwd", User.class,
+                Map.of("uLgn", login, "uPwd", password)
+        );
     }
 }

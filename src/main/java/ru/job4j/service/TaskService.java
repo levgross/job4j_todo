@@ -30,12 +30,12 @@ public class TaskService {
         return store.add(task);
     }
 
-    public boolean delete(int id) {
-        return store.delete(id);
+    public void delete(int id) {
+        store.delete(id);
     }
 
-    public boolean replace(int id, Task task) {
-        return store.replace(id, task);
+    public void replace(int id, Task task) {
+        store.replace(id, task);
     }
 
     public void setDone(int id) {
