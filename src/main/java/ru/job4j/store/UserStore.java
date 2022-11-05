@@ -2,6 +2,7 @@ package ru.job4j.store;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.job4j.model.Task;
 import ru.job4j.model.User;
 
 import java.util.Map;
@@ -19,6 +20,11 @@ public class UserStore {
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    public Optional<User> findById(int id) {
+        return crudStore.optional("from User where id = :uId", User.class,
+                Map.of("uId", id));
     }
 
     public Optional<User> findByLoginAndPassword(String login, String password) {

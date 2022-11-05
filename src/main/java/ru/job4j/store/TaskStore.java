@@ -39,8 +39,10 @@ public class TaskStore {
     }
 
     public void replace(int id, Task task) {
-            crudStore.run("update Task set description = :tDesc, created = :tCrt, done = false where id = :tId",
-                    Map.of("tId", id, "tDesc", task.getDescription(), "tCrt", LocalDateTime.now()));
+            crudStore.run("update Task set description = :tDesc, created = :tCrt, done = false,"
+                            + " user_id = :tUser where id = :tId",
+                    Map.of("tId", id, "tDesc", task.getDescription(), "tCrt", LocalDateTime.now(),
+                            "tUser", task.getUser().getId()));
     }
 
     public void setDone(int id) {

@@ -51,6 +51,7 @@
             <tr>
 			    <th scope="col">#</th>
 			    <th scope="col">Task description</th>
+				<th scope="col">User</th>
 				<th scope="col">Date of creation</th>
 			    <th scope="col">Status</th>
             </tr>
@@ -61,6 +62,7 @@
 				<td>
 					<a th:text="${task.description}" th:href="@{|/tasks/info/${task.id}|}"/>
 				</td>
+				<td th:text="${task.user.name}" />
 			    <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy')}" />
 				<td>
 					<a>
