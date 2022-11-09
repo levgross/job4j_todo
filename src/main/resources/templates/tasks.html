@@ -46,7 +46,7 @@
 	<a th:href="@{/tasks/done}" class="link-success">Done</a>
 	</div>
     <div class="row">
-        <table class="table">
+               <table class="table">
             <thead>
             <tr>
 			    <th scope="col">#</th>
@@ -54,6 +54,7 @@
 				<th scope="col">User</th>
 				<th scope="col">Date of creation</th>
 			    <th scope="col">Status</th>
+				<th scope="col">Priority</th>
             </tr>
             </thead>
             <tbody>
@@ -70,6 +71,7 @@
 					<span th:if="${!task.done}">Undone</span>
 					</a>
 				</td>
+				<td th:text="${task.priority.name}" />
             </tr>
             </tbody>
         </table>

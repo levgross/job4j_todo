@@ -15,17 +15,25 @@ public class TaskStore {
     private final CrudStore crudStore;
 
     public List<Task> findAll() {
-        return crudStore.query("from Task order by id", Task.class);
+        return crudStore.query(
+                "from Task t join fetch t.user join fetch t.priority order by t.id",
+                Task.class
+        );
     }
 
     public List<Task> findByDone(boolean isDone) {
-        return crudStore.query("from Task where done = :isDone order by id", Task.class,
-                Map.of("isDone", isDone));
+        return crudStore.query(
+                "from Task t join fetch t.user join fetch t.priority where done = :isDone",
+                Task.class,
+                Map.of("isDone", isDone)
+        );
     }
 
     public Optional<Task> findById(int id) {
-        return crudStore.optional("from Task where id = :tId", Task.class,
-                Map.of("tId", id));
+        return crudStore.optional("from Task t join fetch t.user join fetch t.priority where id = :tId",
+                Task.class,
+                Map.of("tId", id)
+        );
     }
 
     public Task add(Task task) {
@@ -40,9 +48,9 @@ public class TaskStore {
 
     public void replace(int id, Task task) {
             crudStore.run("update Task set description = :tDesc, created = :tCrt, done = false,"
-                            + " user_id = :tUser where id = :tId",
+                            + " user_id = :tUser, priority_id = :tPriority where id = :tId",
                     Map.of("tId", id, "tDesc", task.getDescription(), "tCrt", LocalDateTime.now(),
-                            "tUser", task.getUser().getId()));
+                            "tUser", task.getUser().getId(), "tPriority", task.getPriority()));
     }
 
     public void setDone(int id) {

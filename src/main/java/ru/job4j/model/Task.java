@@ -1,7 +1,7 @@
 package ru.job4j.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,12 +13,15 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
+    @Include
     private int id;
     private String description;
     private LocalDateTime created;
     private boolean done;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "priority_id")
+    private Priority priority;
 }
