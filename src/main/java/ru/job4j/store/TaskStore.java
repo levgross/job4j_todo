@@ -23,14 +23,14 @@ public class TaskStore {
 
     public List<Task> findByDone(boolean isDone) {
         return crudStore.query(
-                "from Task t join fetch t.user join fetch t.priority where done = :isDone",
+                "from Task t join fetch t.user join fetch t.priority where t.done = :isDone",
                 Task.class,
                 Map.of("isDone", isDone)
         );
     }
 
     public Optional<Task> findById(int id) {
-        return crudStore.optional("from Task t join fetch t.user join fetch t.priority where id = :tId",
+        return crudStore.optional("from Task t join fetch t.user join fetch t.priority where t.id = :tId",
                 Task.class,
                 Map.of("tId", id)
         );
@@ -38,6 +38,10 @@ public class TaskStore {
 
     public Task add(Task task) {
         crudStore.run(session -> session.persist(task));
+        var categories = task.getCategories();
+        for (var category : categories) {
+            crudStore.run(session -> session.persist(category));
+        }
         return task;
     }
 
@@ -50,7 +54,7 @@ public class TaskStore {
             crudStore.run("update Task set description = :tDesc, created = :tCrt, done = false,"
                             + " user_id = :tUser, priority_id = :tPriority where id = :tId",
                     Map.of("tId", id, "tDesc", task.getDescription(), "tCrt", LocalDateTime.now(),
-                            "tUser", task.getUser().getId(), "tPriority", task.getPriority()));
+                            "tUser", task.getUser().getId(), "tPriority", task.getPriority().getId()));
     }
 
     public void setDone(int id) {

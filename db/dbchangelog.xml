@@ -13,4 +13,8 @@
 	<include file="scripts/004_ddl_alter_table_tasks_add_todo_user_id_column.sql" relativeToChangelogFile="true"/>
 	<include file="scripts/update_002.sql" relativeToChangelogFile="true"/>
 	<include file="scripts/005_ddl_alter_table_add_priorities_table.sql" relativeToChangelogFile="true"/>
+	<include file="scripts/006_ddl_alter_table_add_categories_table.sql" relativeToChangelogFile="true"/>
+	<include file="scripts/007_dml_insert_categories.sql" relativeToChangelogFile="true"/>
+	<include file="scripts/008_ddl_alter_table_add_task_category_table.sql" relativeToChangelogFile="true"/>
+	<include file="scripts/009_dml_insert_task_category.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
+import ru.job4j.service.CategoryService;
 import ru.job4j.service.PriorityService;
 import ru.job4j.service.TaskService;
 import ru.job4j.util.Utility;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class TaskController {
     private final TaskService taskService;
     private final PriorityService priorityService;
+    private final CategoryService categoryService;
 
     @GetMapping("")
     public String tasks(Model model, HttpSession session) {
@@ -46,6 +48,7 @@ public class TaskController {
     public String add(Model model, HttpSession session) {
         model.addAttribute("user", Utility.check(session));
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "new";
     }
 
