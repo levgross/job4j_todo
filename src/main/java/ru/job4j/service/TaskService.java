@@ -34,8 +34,8 @@ public class TaskService {
         store.delete(id);
     }
 
-    public void replace(int id, Task task) {
-        store.replace(id, task);
+    public void replace(Task task) {
+        store.replace(task);
     }
 
     public void setDone(int id) {

@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,4 +17,6 @@ public class Category {
     @Include
     private int id;
     private String name;
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
+    private List<Task> tasks = new ArrayList<>();
 }

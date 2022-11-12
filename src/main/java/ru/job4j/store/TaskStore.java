@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.Task;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,10 +37,6 @@ public class TaskStore {
 
     public Task add(Task task) {
         crudStore.run(session -> session.persist(task));
-        var categories = task.getCategories();
-        for (var category : categories) {
-            crudStore.run(session -> session.persist(category));
-        }
         return task;
     }
 
@@ -50,11 +45,8 @@ public class TaskStore {
                 Map.of("tId", id));
     }
 
-    public void replace(int id, Task task) {
-            crudStore.run("update Task set description = :tDesc, created = :tCrt, done = false,"
-                            + " user_id = :tUser, priority_id = :tPriority where id = :tId",
-                    Map.of("tId", id, "tDesc", task.getDescription(), "tCrt", LocalDateTime.now(),
-                            "tUser", task.getUser().getId(), "tPriority", task.getPriority().getId()));
+    public void replace(Task task) {
+        crudStore.run(session -> session.merge(task));
     }
 
     public void setDone(int id) {

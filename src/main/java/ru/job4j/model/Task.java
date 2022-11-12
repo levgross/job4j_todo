@@ -26,11 +26,16 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "priority_id")
     private Priority priority;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "task_category",
             joinColumns = { @JoinColumn(name = "task_id") },
             inverseJoinColumns = { @JoinColumn(name = "category_id") }
     )
     private List<Category> categories = new ArrayList<>();
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.getTasks().add(this);
+    }
 }

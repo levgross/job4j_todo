@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
 import ru.job4j.service.CategoryService;
@@ -13,6 +14,8 @@ import ru.job4j.util.Utility;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
@@ -53,10 +56,16 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, HttpSession session) {
+    public String create(@ModelAttribute Task task, HttpSession session,
+                         @RequestParam("category_ids") Integer[] categories) {
         User user = (User) session.getAttribute("user");
         task.setUser(user);
         task.setCreated(LocalDateTime.now());
+        Arrays.stream(categories)
+                .map(categoryService::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(task::addCategory);
         taskService.add(task);
         return "redirect:/tasks";
     }
@@ -67,7 +76,9 @@ public class TaskController {
         if (optTask.isEmpty()) {
             return "404";
         }
-        model.addAttribute("task", optTask.get());
+        Task task = optTask.get();
+        model.addAttribute("task", task);
+        model.addAttribute("categories", task.getCategories());
         model.addAttribute("user", Utility.check(session));
         return "info";
     }
@@ -91,13 +102,25 @@ public class TaskController {
             return "404";
         }
         model.addAttribute("task", optTask.get());
+        model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("user", Utility.check(session));
         return "formUpdate";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task) {
-        taskService.replace(task.getId(), task);
+    public String update(@ModelAttribute Task task, HttpSession session,
+                         @RequestParam("category_ids") Integer[] categories) {
+        User user = (User) session.getAttribute("user");
+        task.setUser(user);
+        task.setCreated(LocalDateTime.now());
+        task.setCategories(new ArrayList<>());
+        Arrays.stream(categories)
+                .map(categoryService::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(task::addCategory);
+        taskService.replace(task);
         return "redirect:/tasks";
     }
 }

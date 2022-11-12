@@ -73,6 +73,14 @@
 				<td>Task priority</td>
 				<td th:text="${task.priority.name}" />
             </tr>
+			<tr>
+				<td>Task categories</td>
+				<td>
+					<a th:each="category: ${categories}" >
+						<span th:text="${category.name}" />
+					</a>
+				</td>
+            </tr>
             </tbody>
         </table>
     </div>
