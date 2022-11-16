@@ -22,9 +22,11 @@ public class Task {
     private boolean done;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "priority_id")
+    @ToString.Exclude
     private Priority priority;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -32,6 +34,7 @@ public class Task {
             joinColumns = { @JoinColumn(name = "task_id") },
             inverseJoinColumns = { @JoinColumn(name = "category_id") }
     )
+    @ToString.Exclude
     private List<Category> categories = new ArrayList<>();
 
     public void addCategory(Category category) {

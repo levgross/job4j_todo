@@ -63,6 +63,13 @@
                         <input type="text" class="form-control" name="password" id="password"/>
                         </label>
                     </div>
+					<div class="form-group">
+						<label for="timezone">Time zone</label>
+						<select name="zoneId" id="zoneId" title="Select your time zone" required>
+							<option>Select your time zone</option>
+							<option th:each="zone : ${zones}" th:value="${zone}" th:text="${zone}"></option>
+						</select>
+					</div>
                     <button type="submit" class="btn btn-primary mt-3">Save</button>
                 </form>
             </div>

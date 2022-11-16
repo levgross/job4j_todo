@@ -28,7 +28,8 @@ public class TaskController {
 
     @GetMapping("")
     public String tasks(Model model, HttpSession session) {
-        model.addAttribute("tasks", taskService.findAll());
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", taskService.findAll(user));
         model.addAttribute("user", Utility.check(session));
         return "tasks";
     }
