@@ -24,24 +24,14 @@ public class ToDoRun {
             var stored = listOf("from User where id = 10", User.class, sf);
             for (User user : stored) {
                 System.out.println(user.getTimezone().getDisplayName());
-
-                System.out.println(LocalDateTime.now() + " : " + LocalDateTime.now().atZone(ZoneId.of("UTC+8")).format(DateTimeFormatter.ofPattern("HH:mm yyyy-MM-dd")));
-
-
+                System.out.println(LocalDateTime.now() + " : "
+                        + LocalDateTime.now().atZone(ZoneId.of("UTC+8")));
             }
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
-//        var zones = new ArrayList<TimeZone>();
-//        for (String timeId : TimeZone.getAvailableIDs()) {
-//            zones.add(TimeZone.getTimeZone(timeId));
-//        }
-//        for (TimeZone zone : zones) {
-//            System.out.println(zone.getID() + " : " + zone.getDisplayName());
-//        }
-
     }
 
     public static <T> List<T> listOf(String query, Class<T> model, SessionFactory sf) {
