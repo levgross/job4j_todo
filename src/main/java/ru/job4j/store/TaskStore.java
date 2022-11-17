@@ -29,7 +29,8 @@ public class TaskStore {
     }
 
     public Optional<Task> findById(int id) {
-        return crudStore.optional("from Task t join fetch t.user join fetch t.priority where t.id = :tId",
+        return crudStore.optional(
+                "from Task t join fetch t.user join fetch t.priority join fetch t.categories where t.id = :tId",
                 Task.class,
                 Map.of("tId", id)
         );

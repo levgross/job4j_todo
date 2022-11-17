@@ -15,7 +15,7 @@ public class CategoryStore {
 
     public Optional<Category> findById(int id) {
         return crudStore.optional(
-                "from Category where id = :cId",
+                "from Category c join fetch c.tasks where c.id = :cId",
                 Category.class,
                 Map.of("cId", id)
         );

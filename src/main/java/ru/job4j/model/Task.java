@@ -28,7 +28,7 @@ public class Task {
     @JoinColumn(name = "priority_id")
     @ToString.Exclude
     private Priority priority;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "task_category",
             joinColumns = { @JoinColumn(name = "task_id") },

@@ -17,6 +17,6 @@ public class Category {
     @Include
     private int id;
     private String name;
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private List<Task> tasks = new ArrayList<>();
 }
