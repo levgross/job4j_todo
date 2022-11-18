@@ -58,9 +58,6 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute User user, @RequestParam("zoneId") String zoneId) {
-        if ("Select your time zone".equals(zoneId)) {
-            return "redirect:/formAddUser?fail=true";
-        }
         user.setTimezone(TimeZone.getTimeZone(ZoneId.of(zoneId)));
         Optional<User> regUser = service.add(user);
         if (regUser.isEmpty()) {
