@@ -21,19 +21,15 @@ public class TaskService {
     private final TaskStore store;
 
     public List<Task> findAll(User user) {
-        var stored = store.findAll();
-        var tz = user.getTimezone() != null ? user.getTimezone() : TimeZone.getDefault();
-        for (Task task : stored) {
-            var time = task.getCreated().atZone(
-                    ZoneId.of(tz.getID())
-            ).toLocalDateTime();
-            task.setCreated(time);
-        }
-        return stored;
+        return createdWithUserTimezone(store.findAll(), user);
     }
 
-    public List<Task> findByDone(boolean isDone) {
-        return store.findByDone(isDone);
+    public List<Task> findByDone(boolean isDone, User user) {
+        return createdWithUserTimezone(store.findByDone(isDone), user);
+    }
+
+    public Optional<Task> findById(int id, User user) {
+        return createdWithUserTimezone(store.findById(id), user);
     }
 
     public Optional<Task> findById(int id) {
@@ -54,5 +50,25 @@ public class TaskService {
 
     public void setDone(int id) {
         store.setDone(id);
+    }
+
+    private List<Task> createdWithUserTimezone(List<Task> list, User user) {
+        var tzId = user.getTimezone().getID();
+        for (Task task : list) {
+            var time = task.getCreated().atZone(ZoneId.of("UTC"));
+            var zonedDateTime = time.withZoneSameInstant(ZoneId.of(tzId));
+            task.setCreated(zonedDateTime.toLocalDateTime());
+        }
+        return list;
+    }
+
+    private Optional<Task> createdWithUserTimezone(Optional<Task> task, User user) {
+        if (task.isPresent()) {
+            var tzId = user.getTimezone().getID();
+            var time = task.get().getCreated().atZone(ZoneId.of("UTC"));
+            var zonedDateTime = time.withZoneSameInstant(ZoneId.of(tzId));
+            task.get().setCreated(zonedDateTime.toLocalDateTime());
+        }
+        return task;
     }
 }

@@ -36,14 +36,16 @@ public class TaskController {
 
     @GetMapping("/undone")
     public String undone(Model model, HttpSession session) {
-        model.addAttribute("undone", taskService.findByDone(false));
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("undone", taskService.findByDone(false, user));
         model.addAttribute("user", Utility.check(session));
         return "undone";
     }
 
     @GetMapping("/done")
     public String done(Model model, HttpSession session) {
-        model.addAttribute("done", taskService.findByDone(true));
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("done", taskService.findByDone(true, user));
         model.addAttribute("user", Utility.check(session));
         return "done";
     }
@@ -73,7 +75,8 @@ public class TaskController {
 
     @GetMapping("/info/{id}")
     public String info(Model model, @PathVariable("id") int id, HttpSession session) {
-        Optional<Task> optTask = taskService.findById(id);
+        User user = (User) session.getAttribute("user");
+        Optional<Task> optTask = taskService.findById(id, user);
         if (optTask.isEmpty()) {
             return "404";
         }

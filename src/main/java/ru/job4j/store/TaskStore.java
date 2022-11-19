@@ -15,14 +15,14 @@ public class TaskStore {
 
     public List<Task> findAll() {
         return crudStore.query(
-                "from Task t join fetch t.user join fetch t.priority order by t.id",
+                "from Task t join fetch t.user join fetch t.priority order by t.created desc",
                 Task.class
         );
     }
 
     public List<Task> findByDone(boolean isDone) {
         return crudStore.query(
-                "from Task t join fetch t.user join fetch t.priority where t.done = :isDone",
+                "from Task t join fetch t.user join fetch t.priority where t.done = :isDone order by t.created desc",
                 Task.class,
                 Map.of("isDone", isDone)
         );

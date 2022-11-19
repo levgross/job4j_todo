@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 
@@ -58,7 +59,11 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute User user, @RequestParam("zoneId") String zoneId) {
-        user.setTimezone(TimeZone.getTimeZone(ZoneId.of(zoneId)));
+        if ("".equals(zoneId)) {
+            user.setTimezone(TimeZone.getDefault());
+        } else {
+            user.setTimezone(TimeZone.getTimeZone(ZoneId.of(zoneId)));
+        }
         Optional<User> regUser = service.add(user);
         if (regUser.isEmpty()) {
             return "redirect:/formAddUser?fail=true";

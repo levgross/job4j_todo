@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.model.User;
 import ru.job4j.store.UserStore;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 
@@ -14,9 +15,6 @@ public class UserService {
     private final UserStore store;
 
     public Optional<User> add(User user) {
-        if (user.getTimezone() == null) {
-            user.setTimezone(TimeZone.getDefault());
-        }
         return store.add(user);
     }
 
